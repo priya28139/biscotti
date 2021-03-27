@@ -85,7 +85,7 @@ export default function PrimarySearchAppBar() {
               alignItems: "center",
             }}
           >
-            <i class="fas fa-stroopwafel fa-lg"></i>
+            <i className="fas fa-stroopwafel fa-lg"></i>
             <Typography className={classes.title} variant="h6" noWrap>
               Biscotti
             </Typography>
