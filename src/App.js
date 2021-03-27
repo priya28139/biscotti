@@ -1,25 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react"
+import AppBar from "./components/AppBar"
 
-function App() {
+const App = () => {
+  const APP_ID = "b55d2702"
+  const APP_KEY = "24c1e01a946fc7309dacda08beb748bb"
+  const APP_URI = `https://api.edamam.com/search?q=chicken&app_id=${APP_ID}&app_key=${APP_KEY}`
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <AppBar />
+    </>
+  )
 }
 
-export default App;
+export default App
