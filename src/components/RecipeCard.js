@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
@@ -10,7 +10,24 @@ import Collapse from "@material-ui/core/Collapse";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import { pink, purple, red } from "@material-ui/core/colors";
+import {
+  amber,
+  blue,
+  cyan,
+  deepOrange,
+  deepPurple,
+  green,
+  indigo,
+  lightBlue,
+  lightGreen,
+  lime,
+  orange,
+  pink,
+  purple,
+  red,
+  teal,
+  yellow,
+} from "@material-ui/core/colors";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
@@ -47,7 +64,25 @@ const useStyles = makeStyles((theme) => ({
 export default function RecipeCard(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
-  console.log(props);
+  const [avatarColor, setAvatarColor] = useState(null);
+  const color_palette = [
+    red[500],
+    pink[500],
+    purple[500],
+    deepPurple[500],
+    indigo[500],
+    blue[500],
+    lightBlue[500],
+    cyan[500],
+    teal[500],
+    green[500],
+    lightGreen[500],
+    lime[500],
+    yellow[500],
+    amber[500],
+    orange[500],
+    deepOrange[500],
+  ];
   const {
     dateModified,
     idMeal,
@@ -103,16 +138,25 @@ export default function RecipeCard(props) {
     strTags,
     strYoutube,
   } = props.meal;
+  const { counter } = props;
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  useEffect(() => {
+    console.log(counter);
+    setAvatarColor(color_palette[counter]);
+  }, [counter]);
 
   return (
     <Grid item xs={12} sm={6} md={4} lg={3}>
       <Card className={classes.root}>
         <CardHeader
           avatar={
-            <Avatar aria-label="recipe" className={classes.avatar}>
+            <Avatar
+              aria-label="recipe"
+              className={classes.avatar}
+              style={{ backgroundColor: avatarColor }}
+            >
               {strArea[0]}
             </Avatar>
           }
