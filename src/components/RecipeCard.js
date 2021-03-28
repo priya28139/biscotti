@@ -10,6 +10,7 @@ import Collapse from "@material-ui/core/Collapse";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import {
   amber,
   blue,
@@ -186,14 +187,12 @@ export default function RecipeCard(props) {
             <ShareIcon />
           </IconButton>
           <IconButton
-            className={clsx(classes.expand, {
-              [classes.expandOpen]: expanded,
-            })}
+            className={classes.expand}
             onClick={handleExpandClick}
             aria-expanded={expanded}
             aria-label="show more"
           >
-            <ExpandMoreIcon />
+            <NavigateNextIcon />
           </IconButton>
         </CardActions>
       </Card>
