@@ -36,7 +36,7 @@ import { Grid } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
+    maxWidth: 385,
     margin: "0 auto",
   },
   media: {
@@ -65,6 +65,7 @@ export default function RecipeCard(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const [avatarColor, setAvatarColor] = useState(null);
+  const [description, setDescription] = useState(null);
   const color_palette = [
     red[500],
     pink[500],
@@ -147,8 +148,12 @@ export default function RecipeCard(props) {
     setAvatarColor(color_palette[counter]);
   }, [counter]);
 
+  useEffect(() => {
+    setDescription(strInstructions.slice(0, 150).replace("\n", " "));
+  }, [strInstructions]);
+
   return (
-    <Grid item xs={12} sm={6} md={4} lg={3}>
+    <Grid item xs={12} sm={6} md={4}>
       <Card className={classes.root}>
         <CardHeader
           avatar={
@@ -161,19 +166,24 @@ export default function RecipeCard(props) {
             </Avatar>
           }
           title={strMeal}
-          subheader="September 14, 2016"
+          subheader={strCategory}
         />
         <CardMedia
           className={classes.media}
           image={strMealThumb}
           title={strMeal}
         />
+        <CardContent>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {description}
+          </Typography>
+        </CardContent>
         <CardActions disableSpacing>
           <IconButton aria-label="add to favorites">
-            <FavoriteIcon className={classes.lightIcons} />
+            <FavoriteIcon />
           </IconButton>
           <IconButton aria-label="share">
-            <ShareIcon className={classes.lightIcons} />
+            <ShareIcon />
           </IconButton>
           <IconButton
             className={clsx(classes.expand, {
@@ -183,7 +193,7 @@ export default function RecipeCard(props) {
             aria-expanded={expanded}
             aria-label="show more"
           >
-            <ExpandMoreIcon className={classes.lightIcons} />
+            <ExpandMoreIcon />
           </IconButton>
         </CardActions>
       </Card>
