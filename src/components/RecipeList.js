@@ -31,7 +31,7 @@ export default function RecipeList(props) {
   return (
     <Grid
       container
-      spacing={2}
+      spacing={3}
       style={{
         width: "calc(100% - 1em)",
         margin: "1em auto",
