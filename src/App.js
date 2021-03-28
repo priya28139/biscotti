@@ -1,16 +1,27 @@
-import React from "react"
-import AppBar from "./components/AppBar"
+import React, { useEffect, useState } from "react";
+import AppBar from "./components/AppBar";
+import RecipeList from "./components/RecipeList";
 
 const App = () => {
-  const APP_ID = "b55d2702"
-  const APP_KEY = "24c1e01a946fc7309dacda08beb748bb"
-  const APP_URI = `https://api.edamam.com/search?q=chicken&app_id=${APP_ID}&app_key=${APP_KEY}`
+  const APP_URI = `https://www.themealdb.com/api/json/v1/1/search.php?s=p`;
+  const [recipes, setRecipes] = useState([]);
+
+  useEffect(() => {
+    getRecipes();
+  }, []);
+
+  const getRecipes = async () => {
+    const response = await fetch(APP_URI);
+    const data = await response.json();
+    setRecipes(data);
+  };
 
   return (
     <>
       <AppBar />
+      <RecipeList meals={recipes} />
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
