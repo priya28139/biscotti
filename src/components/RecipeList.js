@@ -19,7 +19,14 @@ const useStyles = makeStyles((theme) => ({
 export default function RecipeList(props) {
   const classes = useStyles();
   const { meals } = props.meals;
-  const recipeCards = meals?.map((meal) => <RecipeCard meal={meal} />);
+  let counter = -1;
+  const recipeCards = meals?.map((meal) => {
+    counter++;
+    if (counter == 16) {
+      counter = 0;
+    }
+    return <RecipeCard meal={meal} counter={counter} />;
+  });
   return (
     <Grid
       container
