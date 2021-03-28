@@ -65,8 +65,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar(props) {
   const classes = useStyles();
+  const { setSearchString } = props;
   return (
     <div className={classes.grow}>
       <AppBar position="static" style={{ backgroundColor: pink[500] }}>
@@ -104,6 +105,7 @@ export default function PrimarySearchAppBar() {
                 input: classes.inputInput,
               }}
               inputProps={{ "aria-label": "search" }}
+              onChange={(event) => setSearchString(event.target.value)}
             />
           </div>
         </Toolbar>
