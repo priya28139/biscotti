@@ -26,7 +26,7 @@ export default function RecipeList(props) {
     if (counter == 16) {
       counter = 0;
     }
-    return <RecipeCard meal={meal} counter={counter} />;
+    return <RecipeCard meal={meal} counter={counter} key={meal.idMeal} />;
   });
   return (
     <Grid
