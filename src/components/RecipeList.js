@@ -26,15 +26,15 @@ export default function RecipeList(props) {
     if (counter == 16) {
       counter = 0;
     }
-    return <RecipeCardAlternative meal={meal} counter={counter} />;
+    return <RecipeCard meal={meal} counter={counter} />;
   });
   return (
     <Grid
       container
-      spacing={3}
+      spacing={2}
       style={{
-        width: "calc(100% - 2em)",
-        margin: "2em auto",
+        width: "calc(100% - 1em)",
+        margin: "1em auto",
       }}
     >
       {recipeCards}
