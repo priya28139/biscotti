@@ -1,16 +1,18 @@
-import React from "react"
-import { fade, makeStyles } from "@material-ui/core/styles"
-import AppBar from "@material-ui/core/AppBar"
-import Toolbar from "@material-ui/core/Toolbar"
-import IconButton from "@material-ui/core/IconButton"
-import Typography from "@material-ui/core/Typography"
-import InputBase from "@material-ui/core/InputBase"
-import SearchIcon from "@material-ui/icons/Search"
-import "@fortawesome/fontawesome-free/css/all.css"
-import "../AppBar.css"
+import React from "react";
+import { fade, makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+import InputBase from "@material-ui/core/InputBase";
+import SearchIcon from "@material-ui/icons/Search";
+import "@fortawesome/fontawesome-free/css/all.css";
+import "../AppBar.css";
+import { pink } from "@material-ui/core/colors";
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
+    backgroundColor: pink[500],
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -61,13 +63,13 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create("width"),
   },
-}))
+}));
 
 export default function PrimarySearchAppBar() {
-  const classes = useStyles()
+  const classes = useStyles();
   return (
     <div className={classes.grow}>
-      <AppBar position="static">
+      <AppBar position="static" style={{ backgroundColor: pink[500] }}>
         <Toolbar
           style={{
             display: "flex",
@@ -107,5 +109,5 @@ export default function PrimarySearchAppBar() {
         </Toolbar>
       </AppBar>
     </div>
-  )
+  );
 }
