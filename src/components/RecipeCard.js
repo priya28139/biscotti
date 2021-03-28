@@ -51,15 +51,6 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.shortest,
     }),
   },
-  expandOpen: {
-    transform: "rotate(180deg)",
-  },
-  avatar: {
-    backgroundColor: purple[500],
-  },
-  lightIcons: {
-    color: theme.palette.action.disabled,
-  },
 }));
 
 export default function RecipeCard(props) {
@@ -67,6 +58,7 @@ export default function RecipeCard(props) {
   const [expanded, setExpanded] = React.useState(false);
   const [avatarColor, setAvatarColor] = useState(null);
   const [description, setDescription] = useState(null);
+  const [isFavorite, setIsFavorite] = useState(false);
   const color_palette = [
     red[500],
     pink[500],
@@ -144,6 +136,9 @@ export default function RecipeCard(props) {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  const handleAddToFavorites = () => {
+    setIsFavorite(!isFavorite);
+  };
   useEffect(() => {
     console.log(counter);
     setAvatarColor(color_palette[counter]);
@@ -180,8 +175,11 @@ export default function RecipeCard(props) {
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites">
-            <FavoriteIcon />
+          <IconButton
+            aria-label="add to favorites"
+            onClick={handleAddToFavorites}
+          >
+            <FavoriteIcon style={{ color: isFavorite ? pink[500] : "" }} />
           </IconButton>
           <IconButton aria-label="share">
             <ShareIcon />
