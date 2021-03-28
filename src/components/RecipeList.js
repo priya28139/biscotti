@@ -4,6 +4,7 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import RecipeCard from "./RecipeCard";
 import { Container } from "@material-ui/core";
+import RecipeCardAlternative from "./RecipeCardAlternative";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,7 +26,7 @@ export default function RecipeList(props) {
     if (counter == 16) {
       counter = 0;
     }
-    return <RecipeCard meal={meal} counter={counter} />;
+    return <RecipeCardAlternative meal={meal} counter={counter} />;
   });
   return (
     <Grid
