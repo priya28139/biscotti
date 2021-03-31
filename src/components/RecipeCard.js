@@ -149,7 +149,7 @@ export default function RecipeCard(props) {
   }, [strInstructions]);
 
   return (
-    <Grid item xs={12} sm={6} md={4}>
+    <Grid item xs={12} sm={6} md={4} xl={3}>
       <Card className={classes.root}>
         <CardHeader
           avatar={
