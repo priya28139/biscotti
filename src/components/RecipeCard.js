@@ -193,7 +193,13 @@ export default function RecipeCard(props) {
             aria-expanded={expanded}
             aria-label="show more"
           >
-            <Link to={`recipes/${idMeal}`} style={{ color: "inherit" }}>
+            <Link
+              to={{
+                pathname: `recipes/${idMeal}`,
+                state: { meal: props.meal },
+              }}
+              style={{ color: "inherit" }}
+            >
               <NavigateNextIcon />
             </Link>
           </IconButton>
