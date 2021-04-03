@@ -41,7 +41,6 @@ export default function Recipe({ match, location }) {
       measure: indexedValues[i + 20],
     });
   }
-  console.log(ingredientsAndMeasures);
   return (
     <div className={classes.root}>
       <Grid
