@@ -34,6 +34,8 @@ import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { Grid } from "@material-ui/core";
+import { Link } from "react-router-dom";
+import { HowToVoteRounded } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -184,13 +186,22 @@ export default function RecipeCard(props) {
           <IconButton aria-label="share">
             <ShareIcon />
           </IconButton>
+
           <IconButton
             className={classes.expand}
             onClick={handleExpandClick}
             aria-expanded={expanded}
             aria-label="show more"
           >
-            <NavigateNextIcon />
+            <Link
+              to={{
+                pathname: `recipes/${idMeal}`,
+                state: { meal: props.meal },
+              }}
+              style={{ color: "inherit" }}
+            >
+              <NavigateNextIcon />
+            </Link>
           </IconButton>
         </CardActions>
       </Card>
