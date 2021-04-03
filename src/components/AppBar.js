@@ -15,6 +15,7 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "../AppBar.css";
 import { pink } from "@material-ui/core/colors";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -176,7 +177,9 @@ export default function AppBarAlternative(props) {
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="favorites" color="inherit">
-              <FavoriteIcon />
+              <Link to="/favorites" style={{ color: "inherit" }}>
+                <FavoriteIcon />
+              </Link>
             </IconButton>
             <IconButton aria-label="toggle theme" color="inherit">
               <Brightness4Icon />
