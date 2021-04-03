@@ -20,7 +20,10 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
   },
   media: {
-    height: "100%",
+    height: "75vh",
+    [theme.breakpoints.up("sm")]: {
+      height: "100%",
+    },
   },
 }));
 
@@ -45,7 +48,8 @@ export default function Recipe({ match, location }) {
         container
         spacing={3}
         style={{
-          width: "90%",
+          width: "100%",
+          maxWidth: "1250px",
           margin: "1em auto",
           alignItems: "stretch",
         }}
@@ -59,14 +63,14 @@ export default function Recipe({ match, location }) {
             {meal?.strMeal}
           </Typography>
         </Grid>
-        <Grid item xs={12} sm={9}>
+        <Grid item xs={12} sm={8}>
           <CardMedia
             className={classes.media}
             image={meal?.strMealThumb}
             title={meal.strMeal}
           />
         </Grid>
-        <Grid item xs={12} sm={3}>
+        <Grid item xs={12} sm={4}>
           <TableContainer component={Paper}>
             <Table aria-label="ingredients table">
               <TableHead>
