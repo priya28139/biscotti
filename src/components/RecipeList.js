@@ -23,7 +23,7 @@ export default function RecipeList(props) {
   let counter = -1;
   const recipeCards = meals?.map((meal) => {
     counter++;
-    if (counter == 16) {
+    if (counter === 16) {
       counter = 0;
     }
     return <RecipeCard meal={meal} counter={counter} key={meal.idMeal} />;
