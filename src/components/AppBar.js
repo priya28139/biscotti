@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -16,6 +16,7 @@ import "@fortawesome/fontawesome-free/css/all.css";
 import "../AppBar.css";
 import { pink } from "@material-ui/core/colors";
 import { Link } from "react-router-dom";
+import { RecipeContext } from "../context/RecipeContext";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -96,7 +97,8 @@ export default function AppBarAlternative(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
-  const { setSearchString } = props;
+  const recipeContext = useContext(RecipeContext);
+  const { setSearchString } = recipeContext;
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleMobileMenuClose = () => {
@@ -171,7 +173,9 @@ export default function AppBarAlternative(props) {
                 input: classes.inputInput,
               }}
               inputProps={{ "aria-label": "search" }}
-              onChange={(event) => setSearchString(event.target.value)}
+              onChange={(event) =>
+                setSearchString(event.target.value.toLowerCase())
+              }
             />
           </div>
           <div className={classes.grow} />
