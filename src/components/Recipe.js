@@ -33,7 +33,7 @@ export default function Recipe({ match, location }) {
   const ingredientsAndMeasures = [];
   const indexedValues = Object.values(meal);
   for (var i = 9; i <= 21; i++) {
-    if (indexedValues[i] === "") {
+    if (!indexedValues[i] || indexedValues[i] === "") {
       break;
     }
     ingredientsAndMeasures.push({
@@ -41,7 +41,6 @@ export default function Recipe({ match, location }) {
       measure: indexedValues[i + 20],
     });
   }
-  console.log(ingredientsAndMeasures);
   return (
     <div className={classes.root}>
       <Grid

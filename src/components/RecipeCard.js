@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
@@ -6,7 +6,6 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
-import Collapse from "@material-ui/core/Collapse";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
@@ -31,11 +30,10 @@ import {
 } from "@material-ui/core/colors";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { HowToVoteRounded } from "@material-ui/icons";
+import { RecipeContext } from "../context/RecipeContext";
+import { cloneDeep } from "lodash";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,10 +55,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function RecipeCard(props) {
   const classes = useStyles();
+  const recipeContext = useContext(RecipeContext);
+  const { favorites, setFavorites } = recipeContext;
   const [expanded, setExpanded] = React.useState(false);
   const [avatarColor, setAvatarColor] = useState(null);
   const [description, setDescription] = useState(null);
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(favorites.includes(props.meal));
   const color_palette = [
     red[500],
     pink[500],
@@ -79,61 +79,6 @@ export default function RecipeCard(props) {
     orange[500],
     deepOrange[500],
   ];
-  const {
-    dateModified,
-    idMeal,
-    strArea,
-    strCategory,
-    strCreativeCommonsConfirmed,
-    strDrinkAlternate,
-    strImageSource,
-    strIngredient1,
-    strIngredient2,
-    strIngredient3,
-    strIngredient4,
-    strIngredient5,
-    strIngredient6,
-    strIngredient7,
-    strIngredient8,
-    strIngredient9,
-    strIngredient10,
-    strIngredient11,
-    strIngredient12,
-    strIngredien13,
-    strIngredient14,
-    strIngredient15,
-    strIngredient16,
-    strIngredient17,
-    strIngredient18,
-    strIngredient19,
-    strIngredient20,
-    strInstructions,
-    strMeal,
-    strMealThumb,
-    strMeasure1,
-    strMeasure2,
-    strMeasure3,
-    strMeasure4,
-    strMeasure5,
-    strMeasure6,
-    strMeasure7,
-    strMeasure8,
-    strMeasure9,
-    strMeasure10,
-    strMeasure11,
-    strMeasure12,
-    strMeasure13,
-    strMeasure14,
-    strMeasure15,
-    strMeasure16,
-    strMeasure17,
-    strMeasure18,
-    strMeasure19,
-    strMeasure20,
-    strSource,
-    strTags,
-    strYoutube,
-  } = props.meal;
   const { counter } = props;
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -141,14 +86,28 @@ export default function RecipeCard(props) {
   const handleAddToFavorites = () => {
     setIsFavorite(!isFavorite);
   };
+
   useEffect(() => {
-    console.log(counter);
+    let currentFavorites;
+    if (isFavorite) {
+      currentFavorites = cloneDeep(favorites);
+      currentFavorites.push(props.meal);
+      setFavorites(currentFavorites);
+    } else {
+      currentFavorites = favorites.filter((favorite) => {
+        return favorite.idMeal !== props.meal.idMeal;
+      });
+      setFavorites(currentFavorites);
+    }
+  }, [isFavorite]);
+
+  useEffect(() => {
     setAvatarColor(color_palette[counter]);
   }, [counter]);
 
   useEffect(() => {
-    setDescription(strInstructions.slice(0, 150).replace("\n", " "));
-  }, [strInstructions]);
+    setDescription(props.meal.strInstructions.slice(0, 150).replace("\n", " "));
+  }, [props.meal.strInstructions]);
 
   return (
     <Grid item xs={12} sm={6} md={4} xl={3}>
@@ -160,16 +119,16 @@ export default function RecipeCard(props) {
               className={classes.avatar}
               style={{ backgroundColor: avatarColor }}
             >
-              {strArea[0]}
+              {props.meal.strArea[0]}
             </Avatar>
           }
-          title={strMeal}
-          subheader={strCategory}
+          title={props.meal.strMeal}
+          subheader={props.meal.strCategory}
         />
         <CardMedia
           className={classes.media}
-          image={strMealThumb}
-          title={strMeal}
+          image={props.meal.strMealThumb}
+          title={props.meal.strMeal}
         />
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
@@ -187,15 +146,10 @@ export default function RecipeCard(props) {
             <ShareIcon />
           </IconButton>
 
-          <IconButton
-            className={classes.expand}
-            onClick={handleExpandClick}
-            aria-expanded={expanded}
-            aria-label="show more"
-          >
+          <IconButton className={classes.expand} aria-label="show more">
             <Link
               to={{
-                pathname: `recipes/${idMeal}`,
+                pathname: `recipes/${props.meal.idMeal}`,
                 state: { meal: props.meal },
               }}
               style={{ color: "inherit" }}
