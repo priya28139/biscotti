@@ -37,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Great Vibes",
     fontSize: "1.5em",
     fontWeight: "300",
+    position: "relative",
+    top: "0.08em",
+    left: "-0.1em",
   },
   search: {
     position: "relative",
