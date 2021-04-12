@@ -60,7 +60,9 @@ export default function RecipeCard(props) {
   const [expanded, setExpanded] = React.useState(false);
   const [avatarColor, setAvatarColor] = useState(null);
   const [description, setDescription] = useState(null);
-  const [isFavorite, setIsFavorite] = useState(favorites.includes(props.meal));
+  const [isFavorite, setIsFavorite] = useState(
+    favorites.some((favorite) => favorite.idMeal === props.meal.idMeal)
+  );
   const color_palette = [
     red[500],
     pink[500],
