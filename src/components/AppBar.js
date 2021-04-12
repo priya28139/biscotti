@@ -153,18 +153,19 @@ export default function AppBarAlternative(props) {
     <div className={classes.grow}>
       <AppBar position="static" style={{ backgroundColor: pink[500] }}>
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-          >
-            <i className="fas fa-stroopwafel fa-lg"></i>
-            <Typography className={classes.title} variant="h6" noWrap>
-              Biscotti
-            </Typography>
-          </IconButton>
-
+          <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>
+            <IconButton
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="open drawer"
+            >
+              <i className="fas fa-stroopwafel fa-lg"></i>
+              <Typography className={classes.title} variant="h6" noWrap>
+                Biscotti
+              </Typography>
+            </IconButton>
+          </Link>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
