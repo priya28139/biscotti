@@ -8,15 +8,7 @@ import { RecipeContext, RecipeProvider } from "./context/RecipeContext";
 function App() {
   const APP_URI = `https://www.themealdb.com/api/json/v1/1/search.php?f=`;
   const recipeContext = useContext(RecipeContext);
-  const [filteredRecipes, setFilteredRecipes] = useState([]);
-  const {
-    favorites,
-    setFavorites,
-    recipes,
-    setRecipes,
-    searchString,
-    setSearchString,
-  } = recipeContext;
+  const { recipes, setRecipes } = recipeContext;
   useEffect(() => {
     getRecipes();
   }, []);
@@ -57,42 +49,30 @@ function App() {
       const response = await fetch(APP_URI + firstLetter);
       const data = await response.json();
       if (data) {
-        console.log(data.meals);
+        //console.log(data.meals);
         for (var j = 0; j < data.meals?.length; j++) {
           allRecipes.push(data.meals[j]);
-          setRecipes({ meals: allRecipes });
         }
       }
     }
+    setRecipes({ meals: allRecipes });
   };
 
   useEffect(() => {
-    setFilteredRecipes(recipes);
+    //console.log("recipes changed in App.js");
+    //console.log(recipes);
   }, [recipes]);
-
-  useEffect(() => {
-    if (searchString === "") {
-      setFilteredRecipes(recipes);
-    } else {
-      const filtered = recipes.meals?.filter((meal) => {
-        return (
-          meal.strMeal.toString().toLowerCase().indexOf(searchString) !== -1
-        );
-      });
-      setFilteredRecipes({ meals: filtered });
-    }
-  }, [searchString]);
 
   return (
     <Router>
       <AppBar />
       <Switch>
         <Route path="/" exact>
-          <RecipeList meals={filteredRecipes} />
+          <RecipeList type="all" />
         </Route>
         <Route path="/recipes/:id" component={Recipe}></Route>
         <Route path="/favorites">
-          <RecipeList meals={{ meals: favorites }} />
+          <RecipeList type="favorites" />
         </Route>
       </Switch>
     </Router>
