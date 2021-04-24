@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -57,10 +56,9 @@ export default function RecipeCard({ meal, counter, favorites, setFavorites }) {
   const [expanded, setExpanded] = React.useState(false);
   const [avatarColor, setAvatarColor] = useState(null);
   const [description, setDescription] = useState(null);
-  const [isFavorite, setIsFavorite] = useState(false);
-  // useState(
-  //   favorites?.some((favorite) => favorite.idMeal === meal.idMeal)
-  // );
+  const [isFavorite, setIsFavorite] = useState(
+    favorites.some((favorite) => favorite.idMeal === meal.idMeal)
+  );
   const color_palette = [
     red[500],
     pink[500],
@@ -87,19 +85,23 @@ export default function RecipeCard({ meal, counter, favorites, setFavorites }) {
     setIsFavorite(!isFavorite);
   };
 
-  // useEffect(() => {
-  //   let currentFavorites;
-  //   if (isFavorite) {
-  //     currentFavorites = cloneDeep(favorites);
-  //     currentFavorites.push(meal);
-  //     setFavorites(currentFavorites);
-  //   } else {
-  //     currentFavorites = favorites.filter((favorite) => {
-  //       return favorite.idMeal !== meal.idMeal;
-  //     });
-  //     setFavorites(currentFavorites);
-  //   }
-  // }, [isFavorite]);
+  useEffect(() => {
+    let currentFavorites;
+    if (isFavorite) {
+      currentFavorites = cloneDeep(favorites);
+      if (!favorites.some((favorite) => favorite.idMeal === meal.idMeal)) {
+        currentFavorites.push(meal);
+        console.log("currentFavorites:", currentFavorites);
+        setFavorites(currentFavorites);
+      }
+    } else {
+      currentFavorites = favorites?.filter((favorite) => {
+        return favorite.idMeal !== meal.idMeal;
+      });
+      console.log("currentFavorites:", currentFavorites);
+      setFavorites(currentFavorites);
+    }
+  }, [isFavorite]);
 
   useEffect(() => {
     setAvatarColor(color_palette[counter]);
