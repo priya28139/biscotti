@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -144,10 +144,20 @@ export default function AppBarAlternative({ searchString, setSearchString }) {
         <p>Toggle Light/Dark</p>
       </MenuItem>
       <MenuItem>
-        <IconButton aria-label="github" color="inherit">
-          <GitHubIcon />
-        </IconButton>
-        <p>Github</p>
+        <a
+          href="https://github.com/priya28139/biscotti"
+          style={{
+            color: "inherit",
+            textDecoration: "none",
+            height: 0,
+            width: 0,
+          }}
+        >
+          <IconButton aria-label="github" color="inherit">
+            <GitHubIcon />
+          </IconButton>
+          <span>Github</span>
+        </a>
       </MenuItem>
     </Menu>
   );
@@ -194,10 +204,21 @@ export default function AppBarAlternative({ searchString, setSearchString }) {
               </Link>
             </IconButton>
             <IconButton aria-label="toggle theme" color="inherit">
-              <Brightness4Icon />
+              <a>
+                <Brightness4Icon />
+              </a>
             </IconButton>
             <IconButton aria-label="github" color="inherit">
-              <GitHubIcon />
+              <a
+                href="https://github.com/priya28139/biscotti"
+                style={{
+                  color: "inherit",
+                  textDecoration: "none",
+                  display: "inline",
+                }}
+              >
+                <GitHubIcon />
+              </a>
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>
