@@ -16,7 +16,6 @@ import "@fortawesome/fontawesome-free/css/all.css";
 import "../AppBar.css";
 import { pink } from "@material-ui/core/colors";
 import { Link } from "react-router-dom";
-import { RecipeContext } from "../context/RecipeContext";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -95,13 +94,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AppBarAlternative(props) {
+export default function AppBarAlternative({ searchString, setSearchString }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
-  const recipeContext = useContext(RecipeContext);
-  const { setSearchString } = recipeContext;
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleMobileMenuClose = () => {
@@ -177,6 +174,7 @@ export default function AppBarAlternative(props) {
                 input: classes.inputInput,
               }}
               inputProps={{ "aria-label": "search" }}
+              value={searchString}
               onChange={(event) =>
                 setSearchString(event.target.value.toLowerCase())
               }
