@@ -126,11 +126,17 @@ export default function AppBarAlternative({ searchString, setSearchString }) {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton aria-label="favorites" color="inherit">
-          <FavoriteIcon />
-        </IconButton>
-        <p>Favorites</p>
+        <Link
+          to="/favorites"
+          style={{ color: "inherit", textDecoration: "none" }}
+        >
+          <IconButton aria-label="favorites" color="inherit">
+            <FavoriteIcon />
+          </IconButton>
+          <span>Favorites</span>
+        </Link>
       </MenuItem>
+
       <MenuItem>
         <IconButton aria-label="toggle theme" color="inherit">
           <Brightness4Icon />
