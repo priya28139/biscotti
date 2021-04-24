@@ -149,8 +149,6 @@ export default function AppBarAlternative({ searchString, setSearchString }) {
           style={{
             color: "inherit",
             textDecoration: "none",
-            height: 0,
-            width: 0,
           }}
         >
           <IconButton aria-label="github" color="inherit">
