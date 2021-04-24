@@ -97,7 +97,6 @@ export default function Recipe({ match, location }) {
           </Typography>
         </Grid>
       </Grid>
-      )
     </div>
   );
 }
