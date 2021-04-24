@@ -91,14 +91,12 @@ export default function RecipeCard({ meal, counter, favorites, setFavorites }) {
       currentFavorites = cloneDeep(favorites);
       if (!favorites.some((favorite) => favorite.idMeal === meal.idMeal)) {
         currentFavorites.push(meal);
-        console.log("currentFavorites:", currentFavorites);
         setFavorites(currentFavorites);
       }
     } else {
       currentFavorites = favorites?.filter((favorite) => {
         return favorite.idMeal !== meal.idMeal;
       });
-      console.log("currentFavorites:", currentFavorites);
       setFavorites(currentFavorites);
     }
   }, [isFavorite]);
