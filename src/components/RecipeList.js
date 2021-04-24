@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -17,16 +17,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function RecipeList(props) {
+export default function RecipeList({ recipes, favorites, setFavorites, type }) {
   const classes = useStyles();
-  const { meals } = props.meals;
+  const { meals } = type === "all" ? recipes : favorites;
+  useEffect(() => {
+    console.log("Favorites from RecipeList: ", favorites);
+  }, [favorites]);
   let counter = -1;
   const recipeCards = meals?.map((meal) => {
     counter++;
     if (counter === 16) {
       counter = 0;
     }
-    return <RecipeCard meal={meal} counter={counter} key={meal.idMeal} />;
+    return (
+      <RecipeCard
+        meal={meal}
+        counter={counter}
+        key={meal.idMeal}
+        favorites={favorites}
+        setFavorites={setFavorites}
+      />
+    );
   });
   return (
     <Grid
