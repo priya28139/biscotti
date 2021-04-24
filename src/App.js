@@ -7,6 +7,7 @@ import Recipe from "./components/Recipe";
 export default function App() {
   const APP_URI = `https://www.themealdb.com/api/json/v1/1/search.php?f=`;
   const [filteredRecipes, setFilteredRecipes] = useState([]);
+  const [filteredFavorites, setFilteredFavorites] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [recipes, setRecipes] = useState([]);
   const [searchString, setSearchString] = useState("");
@@ -62,19 +63,35 @@ export default function App() {
 
   useEffect(() => {
     setFilteredRecipes(recipes);
+    console.log(recipes);
   }, [recipes]);
+
+  useEffect(() => {
+    console.log("favorites changed!");
+    console.log(favorites);
+  }, [favorites]);
 
   useEffect(() => {
     if (searchString === "") {
       setFilteredRecipes(recipes);
+      setFilteredFavorites(favorites);
     } else {
       let filtered = [];
+
       for (var i = 0; i < recipes.meals?.length; i++) {
         if (recipes.meals[i].strMeal.match(new RegExp(searchString))) {
           filtered.push(recipes.meals[i]);
         }
       }
       setFilteredRecipes({ meals: filtered });
+
+      let filteredFavorites = [];
+      for (var i = 0; i < favorites?.length; i++) {
+        if (favorites[i].strMeal.match(new RegExp(searchString))) {
+          filteredFavorites.push(favorites[i]);
+        }
+      }
+      setFilteredFavorites(filteredFavorites);
     }
   }, [searchString]);
 
@@ -85,7 +102,7 @@ export default function App() {
         <Route path="/" exact>
           <RecipeList
             recipes={filteredRecipes}
-            favorites={{ meals: favorites }}
+            favorites={favorites}
             setFavorites={setFavorites}
             type="all"
           />
@@ -94,7 +111,7 @@ export default function App() {
         <Route path="/favorites">
           <RecipeList
             recipes={filteredRecipes}
-            favorites={{ meals: favorites }}
+            favorites={favorites}
             setFavorites={setFavorites}
             type="favorites"
           />
