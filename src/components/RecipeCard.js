@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -32,7 +31,6 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import { Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { RecipeContext } from "../context/RecipeContext";
 import { cloneDeep } from "lodash";
 
 const useStyles = makeStyles((theme) => ({
@@ -53,15 +51,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function RecipeCard(props) {
+export default function RecipeCard({ meal, counter, favorites, setFavorites }) {
   const classes = useStyles();
-  const recipeContext = useContext(RecipeContext);
-  const { favorites, setFavorites } = recipeContext;
   const [expanded, setExpanded] = React.useState(false);
   const [avatarColor, setAvatarColor] = useState(null);
   const [description, setDescription] = useState(null);
   const [isFavorite, setIsFavorite] = useState(
-    favorites.some((favorite) => favorite.idMeal === props.meal.idMeal)
+    favorites.some((favorite) => favorite.idMeal === meal.idMeal)
   );
   const color_palette = [
     red[500],
@@ -81,7 +77,7 @@ export default function RecipeCard(props) {
     orange[500],
     deepOrange[500],
   ];
-  const { counter } = props;
+
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -93,11 +89,13 @@ export default function RecipeCard(props) {
     let currentFavorites;
     if (isFavorite) {
       currentFavorites = cloneDeep(favorites);
-      currentFavorites.push(props.meal);
-      setFavorites(currentFavorites);
+      if (!favorites.some((favorite) => favorite.idMeal === meal.idMeal)) {
+        currentFavorites.push(meal);
+        setFavorites(currentFavorites);
+      }
     } else {
-      currentFavorites = favorites.filter((favorite) => {
-        return favorite.idMeal !== props.meal.idMeal;
+      currentFavorites = favorites?.filter((favorite) => {
+        return favorite.idMeal !== meal.idMeal;
       });
       setFavorites(currentFavorites);
     }
@@ -108,8 +106,8 @@ export default function RecipeCard(props) {
   }, [counter]);
 
   useEffect(() => {
-    setDescription(props.meal.strInstructions.slice(0, 150).replace("\n", " "));
-  }, [props.meal.strInstructions]);
+    setDescription(meal.strInstructions.slice(0, 150).replace("\n", " "));
+  }, [meal.strInstructions]);
 
   return (
     <Grid item xs={12} sm={6} md={4} xl={3}>
@@ -121,16 +119,16 @@ export default function RecipeCard(props) {
               className={classes.avatar}
               style={{ backgroundColor: avatarColor }}
             >
-              {props.meal.strArea[0]}
+              {meal.strArea[0]}
             </Avatar>
           }
-          title={props.meal.strMeal}
-          subheader={props.meal.strCategory}
+          title={meal.strMeal}
+          subheader={meal.strCategory}
         />
         <CardMedia
           className={classes.media}
-          image={props.meal.strMealThumb}
-          title={props.meal.strMeal}
+          image={meal.strMealThumb}
+          title={meal.strMeal}
         />
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
@@ -151,8 +149,8 @@ export default function RecipeCard(props) {
           <IconButton className={classes.expand} aria-label="show more">
             <Link
               to={{
-                pathname: `recipes/${props.meal.idMeal}`,
-                state: { meal: props.meal },
+                pathname: `recipes/${meal.idMeal}`,
+                state: { meal: meal },
               }}
               style={{ color: "inherit" }}
             >

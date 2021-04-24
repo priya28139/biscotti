@@ -3,20 +3,15 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import AppBar from "./components/AppBar";
 import RecipeList from "./components/RecipeList";
 import Recipe from "./components/Recipe";
-import { RecipeContext, RecipeProvider } from "./context/RecipeContext";
 
-function App() {
+export default function App() {
   const APP_URI = `https://www.themealdb.com/api/json/v1/1/search.php?f=`;
-  const recipeContext = useContext(RecipeContext);
   const [filteredRecipes, setFilteredRecipes] = useState([]);
-  const {
-    favorites,
-    setFavorites,
-    recipes,
-    setRecipes,
-    searchString,
-    setSearchString,
-  } = recipeContext;
+  const [filteredFavorites, setFilteredFavorites] = useState([]);
+  const [favorites, setFavorites] = useState([]);
+  const [recipes, setRecipes] = useState([]);
+  const [searchString, setSearchString] = useState("");
+
   useEffect(() => {
     getRecipes();
   }, []);
@@ -60,49 +55,99 @@ function App() {
         console.log(data.meals);
         for (var j = 0; j < data.meals?.length; j++) {
           allRecipes.push(data.meals[j]);
-          setRecipes({ meals: allRecipes });
         }
       }
     }
+    setRecipes({ meals: allRecipes });
   };
 
   useEffect(() => {
     setFilteredRecipes(recipes);
+    console.log(recipes);
   }, [recipes]);
+
+  useEffect(() => {
+    console.log("favorites changed!");
+    console.log(favorites);
+  }, [favorites]);
+
+  useEffect(() => {
+    console.log("filtered favorites changed!");
+    console.log(filteredFavorites);
+  }, [filteredFavorites]);
 
   useEffect(() => {
     if (searchString === "") {
       setFilteredRecipes(recipes);
+      setFilteredFavorites(favorites);
     } else {
-      const filtered = recipes.meals?.filter((meal) => {
-        return (
-          meal.strMeal.toString().toLowerCase().indexOf(searchString) !== -1
-        );
-      });
+      let filtered = [];
+
+      for (var i = 0; i < recipes.meals?.length; i++) {
+        if (
+          recipes.meals[i].strMeal
+            .toLowerCase()
+            .match(new RegExp(searchString.toLowerCase()))
+        ) {
+          filtered.push(recipes.meals[i]);
+        }
+      }
       setFilteredRecipes({ meals: filtered });
+
+      let filteredFavorites = [];
+      for (var i = 0; i < favorites?.length; i++) {
+        if (
+          favorites[i].strMeal
+            .toLowerCase()
+            .match(new RegExp(searchString.toLowerCase()))
+        ) {
+          filteredFavorites.push(favorites[i]);
+        }
+      }
+      setFilteredFavorites(filteredFavorites);
     }
   }, [searchString]);
 
+  useEffect(() => {
+    if (searchString === "") {
+      setFilteredFavorites(favorites);
+    } else {
+      let filteredFavorites = [];
+      for (var i = 0; i < favorites?.length; i++) {
+        if (
+          favorites[i].strMeal
+            .toLowerCase()
+            .match(new RegExp(searchString.toLowerCase()))
+        ) {
+          filteredFavorites.push(favorites[i]);
+        }
+      }
+      setFilteredFavorites(filteredFavorites);
+    }
+  }, [searchString, favorites]);
+
   return (
     <Router>
-      <AppBar />
+      <AppBar setSearchString={setSearchString} />
       <Switch>
         <Route path="/" exact>
-          <RecipeList meals={filteredRecipes} />
+          <RecipeList
+            recipes={filteredRecipes}
+            favorites={filteredFavorites}
+            setFavorites={setFavorites}
+            type="all"
+          />
         </Route>
         <Route path="/recipes/:id" component={Recipe}></Route>
         <Route path="/favorites">
-          <RecipeList meals={{ meals: favorites }} />
+          <RecipeList
+            recipes={filteredRecipes}
+            favorites={filteredFavorites}
+            setFavorites={setFavorites}
+            type="favorites"
+          />
         </Route>
       </Switch>
     </Router>
   );
 }
-
-export default () => {
-  return (
-    <RecipeProvider>
-      <App />
-    </RecipeProvider>
-  );
-};
