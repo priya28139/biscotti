@@ -72,6 +72,11 @@ export default function App() {
   }, [favorites]);
 
   useEffect(() => {
+    console.log("filtered favorites changed!");
+    console.log(filteredFavorites);
+  }, [filteredFavorites]);
+
+  useEffect(() => {
     if (searchString === "") {
       setFilteredRecipes(recipes);
       setFilteredFavorites(favorites);
@@ -79,7 +84,11 @@ export default function App() {
       let filtered = [];
 
       for (var i = 0; i < recipes.meals?.length; i++) {
-        if (recipes.meals[i].strMeal.match(new RegExp(searchString))) {
+        if (
+          recipes.meals[i].strMeal
+            .toLowerCase()
+            .match(new RegExp(searchString.toLowerCase()))
+        ) {
           filtered.push(recipes.meals[i]);
         }
       }
@@ -87,13 +96,35 @@ export default function App() {
 
       let filteredFavorites = [];
       for (var i = 0; i < favorites?.length; i++) {
-        if (favorites[i].strMeal.match(new RegExp(searchString))) {
+        if (
+          favorites[i].strMeal
+            .toLowerCase()
+            .match(new RegExp(searchString.toLowerCase()))
+        ) {
           filteredFavorites.push(favorites[i]);
         }
       }
       setFilteredFavorites(filteredFavorites);
     }
   }, [searchString]);
+
+  useEffect(() => {
+    if (searchString === "") {
+      setFilteredFavorites(favorites);
+    } else {
+      let filteredFavorites = [];
+      for (var i = 0; i < favorites?.length; i++) {
+        if (
+          favorites[i].strMeal
+            .toLowerCase()
+            .match(new RegExp(searchString.toLowerCase()))
+        ) {
+          filteredFavorites.push(favorites[i]);
+        }
+      }
+      setFilteredFavorites(filteredFavorites);
+    }
+  }, [searchString, favorites]);
 
   return (
     <Router>
@@ -102,7 +133,7 @@ export default function App() {
         <Route path="/" exact>
           <RecipeList
             recipes={filteredRecipes}
-            favorites={favorites}
+            favorites={filteredFavorites}
             setFavorites={setFavorites}
             type="all"
           />
@@ -111,7 +142,7 @@ export default function App() {
         <Route path="/favorites">
           <RecipeList
             recipes={filteredRecipes}
-            favorites={favorites}
+            favorites={filteredFavorites}
             setFavorites={setFavorites}
             type="favorites"
           />
