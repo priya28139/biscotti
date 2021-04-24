@@ -79,10 +79,8 @@ export default function App() {
   useEffect(() => {
     if (searchString === "") {
       setFilteredRecipes(recipes);
-      setFilteredFavorites(favorites);
     } else {
       let filtered = [];
-
       for (var i = 0; i < recipes.meals?.length; i++) {
         if (
           recipes.meals[i].strMeal
@@ -93,18 +91,6 @@ export default function App() {
         }
       }
       setFilteredRecipes({ meals: filtered });
-
-      let filteredFavorites = [];
-      for (var i = 0; i < favorites?.length; i++) {
-        if (
-          favorites[i].strMeal
-            .toLowerCase()
-            .match(new RegExp(searchString.toLowerCase()))
-        ) {
-          filteredFavorites.push(favorites[i]);
-        }
-      }
-      setFilteredFavorites(filteredFavorites);
     }
   }, [searchString]);
 
