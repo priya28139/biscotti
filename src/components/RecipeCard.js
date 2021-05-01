@@ -51,7 +51,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function RecipeCard({ meal, counter, favorites, setFavorites }) {
+export default function RecipeCard({
+  meal,
+  counter,
+  favorites,
+  setFavorites,
+  darkState,
+}) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const [avatarColor, setAvatarColor] = useState(null);
@@ -59,23 +65,24 @@ export default function RecipeCard({ meal, counter, favorites, setFavorites }) {
   const [isFavorite, setIsFavorite] = useState(
     favorites.some((favorite) => favorite.idMeal === meal.idMeal)
   );
+  const shade = darkState ? 300 : 500;
   const color_palette = [
-    red[500],
-    pink[500],
-    purple[500],
-    deepPurple[500],
-    indigo[500],
-    blue[500],
-    lightBlue[500],
-    cyan[500],
-    teal[500],
-    green[500],
-    lightGreen[500],
-    lime[500],
-    yellow[500],
-    amber[500],
-    orange[500],
-    deepOrange[500],
+    red[shade],
+    pink[shade],
+    purple[shade],
+    deepPurple[shade],
+    indigo[shade],
+    blue[shade],
+    lightBlue[shade],
+    cyan[shade],
+    teal[shade],
+    green[shade],
+    lightGreen[shade],
+    lime[shade],
+    yellow[shade],
+    amber[shade],
+    orange[shade],
+    deepOrange[shade],
   ];
 
   const handleExpandClick = () => {
@@ -111,7 +118,7 @@ export default function RecipeCard({ meal, counter, favorites, setFavorites }) {
 
   return (
     <Grid item xs={12} sm={6} md={4} xl={3}>
-      <Card className={classes.root}>
+      <Card className={classes.root} elevation={darkState ? 4 : 2}>
         <CardHeader
           avatar={
             <Avatar
@@ -140,7 +147,7 @@ export default function RecipeCard({ meal, counter, favorites, setFavorites }) {
             aria-label="add to favorites"
             onClick={handleAddToFavorites}
           >
-            <FavoriteIcon style={{ color: isFavorite ? pink[500] : "" }} />
+            <FavoriteIcon style={{ color: isFavorite ? pink[shade] : "" }} />
           </IconButton>
           <IconButton aria-label="share">
             <ShareIcon />
@@ -150,7 +157,7 @@ export default function RecipeCard({ meal, counter, favorites, setFavorites }) {
             <Link
               to={{
                 pathname: `recipes/${meal.idMeal}`,
-                state: { meal: meal },
+                state: { meal: meal, darkState: darkState },
               }}
               style={{ color: "inherit" }}
             >

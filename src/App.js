@@ -139,6 +139,7 @@ export default function App() {
               recipes={filteredRecipes}
               favorites={filteredFavorites}
               setFavorites={setFavorites}
+              darkState={darkState}
               type="all"
             />
           </Route>
@@ -148,6 +149,7 @@ export default function App() {
               recipes={filteredRecipes}
               favorites={filteredFavorites}
               setFavorites={setFavorites}
+              darkState={darkState}
               type="favorites"
             />
           </Route>
