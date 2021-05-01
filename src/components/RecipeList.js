@@ -2,7 +2,13 @@ import React, { useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 import RecipeCard from "./RecipeCard";
 
-export default function RecipeList({ recipes, favorites, setFavorites, type }) {
+export default function RecipeList({
+  recipes,
+  favorites,
+  setFavorites,
+  type,
+  darkState,
+}) {
   useEffect(() => {
     console.log("Favorites from RecipeList: ", favorites);
   }, [favorites]);
@@ -21,6 +27,7 @@ export default function RecipeList({ recipes, favorites, setFavorites, type }) {
               key={meal.idMeal}
               favorites={favorites}
               setFavorites={setFavorites}
+              darkState={darkState}
             />
           );
         })
