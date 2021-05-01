@@ -1,8 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import AppBar from "./components/AppBar";
 import RecipeList from "./components/RecipeList";
 import Recipe from "./components/Recipe";
+import { createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
 
 export default function App() {
   const APP_URI = `https://www.themealdb.com/api/json/v1/1/search.php?f=`;
@@ -11,6 +12,12 @@ export default function App() {
   const [favorites, setFavorites] = useState([]);
   const [recipes, setRecipes] = useState([]);
   const [searchString, setSearchString] = useState("");
+  const [darkState, setDarkState] = useState(false);
+  const theme = createMuiTheme({
+    palette: {
+      type: darkState ? "dark" : "light",
+    },
+  });
 
   useEffect(() => {
     getRecipes();
@@ -79,10 +86,8 @@ export default function App() {
   useEffect(() => {
     if (searchString === "") {
       setFilteredRecipes(recipes);
-      setFilteredFavorites(favorites);
     } else {
       let filtered = [];
-
       for (var i = 0; i < recipes.meals?.length; i++) {
         if (
           recipes.meals[i].strMeal
@@ -93,18 +98,6 @@ export default function App() {
         }
       }
       setFilteredRecipes({ meals: filtered });
-
-      let filteredFavorites = [];
-      for (var i = 0; i < favorites?.length; i++) {
-        if (
-          favorites[i].strMeal
-            .toLowerCase()
-            .match(new RegExp(searchString.toLowerCase()))
-        ) {
-          filteredFavorites.push(favorites[i]);
-        }
-      }
-      setFilteredFavorites(filteredFavorites);
     }
   }, [searchString]);
 
@@ -127,27 +120,35 @@ export default function App() {
   }, [searchString, favorites]);
 
   return (
-    <Router>
-      <AppBar setSearchString={setSearchString} />
-      <Switch>
-        <Route path="/" exact>
-          <RecipeList
-            recipes={filteredRecipes}
-            favorites={filteredFavorites}
-            setFavorites={setFavorites}
-            type="all"
-          />
-        </Route>
-        <Route path="/recipes/:id" component={Recipe}></Route>
-        <Route path="/favorites">
-          <RecipeList
-            recipes={filteredRecipes}
-            favorites={filteredFavorites}
-            setFavorites={setFavorites}
-            type="favorites"
-          />
-        </Route>
-      </Switch>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Router>
+        <AppBar
+          searchString={searchString}
+          setSearchString={setSearchString}
+          darkState={darkState}
+          setDarkState={setDarkState}
+        />
+        <Switch>
+          <Route path="/" exact>
+            <RecipeList
+              recipes={filteredRecipes}
+              favorites={filteredFavorites}
+              setFavorites={setFavorites}
+              type="all"
+            />
+          </Route>
+          <Route path="/recipes/:id" component={Recipe}></Route>
+          <Route path="/favorites">
+            <RecipeList
+              recipes={filteredRecipes}
+              favorites={filteredFavorites}
+              setFavorites={setFavorites}
+              type="favorites"
+            />
+          </Route>
+        </Switch>
+      </Router>
+    </ThemeProvider>
   );
 }

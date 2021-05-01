@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -11,6 +11,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import SearchIcon from "@material-ui/icons/Search";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
+import Brightness7Icon from "@material-ui/icons/Brightness7";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "../AppBar.css";
@@ -94,7 +95,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AppBarAlternative({ searchString, setSearchString }) {
+export default function AppBarAlternative({
+  searchString,
+  setSearchString,
+  darkState,
+  setDarkState,
+}) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -126,22 +132,38 @@ export default function AppBarAlternative({ searchString, setSearchString }) {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton aria-label="favorites" color="inherit">
-          <FavoriteIcon />
-        </IconButton>
-        <p>Favorites</p>
+        <Link
+          to="/favorites"
+          style={{ color: "inherit", textDecoration: "none" }}
+        >
+          <IconButton aria-label="favorites" color="inherit">
+            <FavoriteIcon />
+          </IconButton>
+          <span>Favorites</span>
+        </Link>
+      </MenuItem>
+
+      <MenuItem>
+        <div onClick={() => setDarkState(!darkState)}>
+          <IconButton aria-label="toggle theme" color="inherit">
+            {darkState ? <Brightness7Icon /> : <Brightness4Icon />}
+          </IconButton>
+          <p>Toggle Light/Dark</p>
+        </div>
       </MenuItem>
       <MenuItem>
-        <IconButton aria-label="toggle theme" color="inherit">
-          <Brightness4Icon />
-        </IconButton>
-        <p>Toggle Light/Dark</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="github" color="inherit">
-          <GitHubIcon />
-        </IconButton>
-        <p>Github</p>
+        <a
+          href="https://github.com/priya28139/biscotti"
+          style={{
+            color: "inherit",
+            textDecoration: "none",
+          }}
+        >
+          <IconButton aria-label="github" color="inherit">
+            <GitHubIcon />
+          </IconButton>
+          <span>Github</span>
+        </a>
       </MenuItem>
     </Menu>
   );
@@ -187,11 +209,22 @@ export default function AppBarAlternative({ searchString, setSearchString }) {
                 <FavoriteIcon />
               </Link>
             </IconButton>
-            <IconButton aria-label="toggle theme" color="inherit">
-              <Brightness4Icon />
-            </IconButton>
+            <div onClick={() => setDarkState(!darkState)}>
+              <IconButton aria-label="toggle theme" color="inherit">
+                <a>{darkState ? <Brightness7Icon /> : <Brightness4Icon />}</a>
+              </IconButton>
+            </div>
             <IconButton aria-label="github" color="inherit">
-              <GitHubIcon />
+              <a
+                href="https://github.com/priya28139/biscotti"
+                style={{
+                  color: "inherit",
+                  textDecoration: "none",
+                  display: "inline",
+                }}
+              >
+                <GitHubIcon />
+              </a>
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>
