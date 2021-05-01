@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import AppBar from "./components/AppBar";
 import RecipeList from "./components/RecipeList";
 import Recipe from "./components/Recipe";
+import ProgressBar from "./components/ProgressBar";
 import { createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
 
 export default function App() {
@@ -13,6 +14,7 @@ export default function App() {
   const [recipes, setRecipes] = useState([]);
   const [searchString, setSearchString] = useState("");
   const [darkState, setDarkState] = useState(false);
+  const [progress, setProgress] = useState(0);
   const theme = createMuiTheme({
     palette: {
       type: darkState ? "dark" : "light",
@@ -64,6 +66,7 @@ export default function App() {
           allRecipes.push(data.meals[j]);
         }
       }
+      setProgress(((i + 1) / 26) * 100);
     }
     setRecipes({ meals: allRecipes });
   };
@@ -129,6 +132,7 @@ export default function App() {
           darkState={darkState}
           setDarkState={setDarkState}
         />
+        {progress !== 100 && <ProgressBar progress={progress} />}
         <Switch>
           <Route path="/" exact>
             <RecipeList
