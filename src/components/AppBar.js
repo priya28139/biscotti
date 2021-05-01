@@ -11,6 +11,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import SearchIcon from "@material-ui/icons/Search";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
+import Brightness7Icon from "@material-ui/icons/Brightness7";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "../AppBar.css";
@@ -94,7 +95,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AppBarAlternative({ searchString, setSearchString }) {
+export default function AppBarAlternative({
+  searchString,
+  setSearchString,
+  darkState,
+  setDarkState,
+}) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -138,10 +144,12 @@ export default function AppBarAlternative({ searchString, setSearchString }) {
       </MenuItem>
 
       <MenuItem>
-        <IconButton aria-label="toggle theme" color="inherit">
-          <Brightness4Icon />
-        </IconButton>
-        <p>Toggle Light/Dark</p>
+        <div onClick={() => setDarkState(!darkState)}>
+          <IconButton aria-label="toggle theme" color="inherit">
+            {darkState ? <Brightness7Icon /> : <Brightness4Icon />}
+          </IconButton>
+          <p>Toggle Light/Dark</p>
+        </div>
       </MenuItem>
       <MenuItem>
         <a
@@ -201,11 +209,11 @@ export default function AppBarAlternative({ searchString, setSearchString }) {
                 <FavoriteIcon />
               </Link>
             </IconButton>
-            <IconButton aria-label="toggle theme" color="inherit">
-              <a>
-                <Brightness4Icon />
-              </a>
-            </IconButton>
+            <div onClick={() => setDarkState(!darkState)}>
+              <IconButton aria-label="toggle theme" color="inherit">
+                <a>{darkState ? <Brightness7Icon /> : <Brightness4Icon />}</a>
+              </IconButton>
+            </div>
             <IconButton aria-label="github" color="inherit">
               <a
                 href="https://github.com/priya28139/biscotti"
