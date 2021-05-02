@@ -32,6 +32,7 @@ import ShareIcon from "@material-ui/icons/Share";
 import { Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { cloneDeep } from "lodash";
+import SnackBar from "../components/SnackBar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,6 +63,7 @@ export default function RecipeCard({
   const [expanded, setExpanded] = React.useState(false);
   const [avatarColor, setAvatarColor] = useState(null);
   const [description, setDescription] = useState(null);
+  const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [isFavorite, setIsFavorite] = useState(
     favorites.some((favorite) => favorite.idMeal === meal.idMeal)
   );
@@ -150,8 +152,20 @@ export default function RecipeCard({
             <FavoriteIcon style={{ color: isFavorite ? pink[shade] : "" }} />
           </IconButton>
           <IconButton aria-label="share">
-            <ShareIcon />
+            <ShareIcon
+              onClick={() => {
+                navigator.clipboard.writeText(
+                  document.location + `recipes/${meal.idMeal}`
+                );
+                setSnackBarOpen(true);
+              }}
+            />
           </IconButton>
+          <SnackBar
+            open={snackBarOpen}
+            setOpen={setSnackBarOpen}
+            darkState={darkState}
+          />
 
           <IconButton className={classes.expand} aria-label="show more">
             <Link
