@@ -28,7 +28,7 @@ export default function SnackBar({ open, setOpen, darkState }) {
 
   return (
     <div className={classes.root}>
-      <Snackbar open={open} autoHideDuration={2500} onClose={handleClose}>
+      <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
         <Alert
           onClose={handleClose}
           style={{ backgroundColor: darkState ? pink[500] : grey[900] }}
