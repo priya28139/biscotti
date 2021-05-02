@@ -132,9 +132,10 @@ export default function App() {
           darkState={darkState}
           setDarkState={setDarkState}
         />
-        {progress !== 100 && <ProgressBar progress={progress} />}
+
         <Switch>
           <Route path="/" exact>
+            {progress !== 100 && <ProgressBar progress={progress} />}
             <RecipeList
               recipes={filteredRecipes}
               favorites={filteredFavorites}
